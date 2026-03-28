@@ -123,32 +123,19 @@ fun MainContent(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.fck),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
-
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(24.dp)
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Dansk Fodbold",
-                fontSize = 34.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                textAlign = TextAlign.Center
+                fontSize = 30.sp
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Åbn menuen og vælg Se klubber for at se listen over danske fodboldklubber.",
-                fontSize = 18.sp,
-                color = Color.White,
-                textAlign = TextAlign.Center
+                text = "Åbn menuen for at se klubber",
+                fontSize = 18.sp
             )
         }
     }
