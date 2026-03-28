@@ -8,8 +8,7 @@ object FootballRepository {
             stadium = "Parken",
             founded = 1992,
             championships = 15,
-            description = "FC København er en af de største klubber i dansk fodbold og har vundet mange mesterskaber.",
-            imageResId = R.drawable.ic_launcher_foreground
+            description = "FC København er en af de største klubber i dansk fodbold."
         ),
         FootballClub(
             name = "Brøndby IF",
@@ -17,8 +16,7 @@ object FootballRepository {
             stadium = "Brøndby Stadion",
             founded = 1964,
             championships = 11,
-            description = "Brøndby IF er en traditionsrig dansk klub med mange loyale fans og stor historie i Superligaen.",
-            imageResId = R.drawable.ic_launcher_foreground
+            description = "Brøndby IF er en traditionsrig dansk klub."
         ),
         FootballClub(
             name = "AGF",
@@ -26,8 +24,7 @@ object FootballRepository {
             stadium = "Ceres Park",
             founded = 1880,
             championships = 5,
-            description = "AGF er en af Danmarks ældste klubber og har en vigtig plads i dansk fodboldhistorie.",
-            imageResId = R.drawable.ic_launcher_foreground
+            description = "AGF er en af Danmarks ældste klubber."
         )
     )
 }
