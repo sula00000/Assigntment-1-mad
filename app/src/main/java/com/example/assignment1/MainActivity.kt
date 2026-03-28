@@ -9,7 +9,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -33,42 +43,46 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun MainScreen() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    Scaffold(
-        topBar = { TopBar(drawerState, scope) },
-        content = { innerPadding ->
-            ModalNavigationDrawer(
-                drawerState = drawerState,
-                drawerContent = { DrawerContent(context) },
-                scrimColor = Color.Transparent,
-                content = {
-                    MainContent(Modifier.padding(innerPadding))
-                }
-            )
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            DrawerContent(context)
         }
-    )
+    ) {
+        Scaffold(
+            topBar = { TopBar(drawerState, scope) }
+        ) { innerPadding ->
+            MainContent(Modifier.padding(innerPadding))
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(drawerState: DrawerState, scope: CoroutineScope) {
+fun TopBar(drawerState: androidx.compose.material3.DrawerState, scope: CoroutineScope) {
     TopAppBar(
-        title = { Text("Main Screen", color = Color.White) },
+        title = { Text("Forside", color = Color.White) },
         navigationIcon = {
-            IconButton(onClick = {
-                scope.launch {
-                    if (drawerState.isClosed) drawerState.open() else drawerState.close()
+            IconButton(
+                onClick = {
+                    scope.launch {
+                        if (drawerState.isClosed) drawerState.open() else drawerState.close()
+                    }
                 }
-            }) {
+            ) {
                 Icon(Icons.Filled.Menu, contentDescription = "Menu", tint = Color.White)
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF75254a))
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(0xFF1B5E20)
+        )
     )
 }
 
@@ -77,52 +91,64 @@ fun DrawerContent(context: android.content.Context) {
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .width(360.dp)
-            .background(Color(0xFF75254a).copy(alpha = 0.75f))
-            .padding(top = 64.dp),
+            .width(280.dp)
+            .background(Color(0xFF1B5E20))
+            .padding(top = 64.dp, start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Dansk Fodbold",
+            color = Color.White,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = {
                 val intent = Intent(context, ListActivity::class.java)
                 context.startActivity(intent)
             },
-            modifier = Modifier
-                .width(200.dp)
-                .height(40.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Characters", color = Color.White)
+            Text("Se klubber")
         }
     }
 }
 
 @Composable
 fun MainContent(modifier: Modifier = Modifier) {
-    Column(modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ){
-        Box(
-            modifier = modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.TopCenter
-        ) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.fck),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
 
-            Image(
-                painter = painterResource(id = R.drawable.kame),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(24.dp)
+        ) {
             Text(
-                text = "Dragon Ball Character List",
-                fontSize = 36.sp,
+                text = "Dansk Fodbold",
+                fontSize = 34.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFf28d1d),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 16.dp)
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "Åbn menuen og vælg Se klubber for at se listen over danske fodboldklubber.",
+                fontSize = 18.sp,
+                color = Color.White,
+                textAlign = TextAlign.Center
             )
         }
     }
