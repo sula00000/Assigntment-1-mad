@@ -24,27 +24,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Modifier
 
-
 class ListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CharacterListScreen()
+            FootballListScreen()
         }
     }
 }
 
 @Composable
-fun CharacterListScreen() {
+fun FootballListScreen() {
     val context = LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.kame),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
 
         Button(
             onClick = {
@@ -54,27 +47,24 @@ fun CharacterListScreen() {
                 .align(Alignment.TopStart)
                 .padding(16.dp)
         ) {
-            Text("Back", color = Color.White)
+            Text("Tilbage")
         }
 
         LazyColumn(
             modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.Center)
+                .fillMaxSize()
+                .padding(top = 80.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
         ) {
-            items(FootballRepository.clubs) { character ->
-                CharacterItem(character) {
+            items(FootballRepository.clubs) { club ->
+                FootballClubItem(club) {
                     val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra("characterName", character.name)
-                        putExtra("characterAge", character.age)
-                        putExtra("characterRace", character.race)
-                        putExtra("characterGender", character.gender)
-                        putExtra("characterRole", character.role)
-                        putExtra("characterAttack", character.attack)
-                        putExtra("characterRating", character.rating)
-                        putExtra("characterContext", character.context)
-                        putExtra("characterImageResId", character.imageResId)
-                        putExtra("characterBackgroundResId", character.characterBackgroundResId)
+                        putExtra("name", club.name)
+                        putExtra("city", club.city)
+                        putExtra("stadium", club.stadium)
+                        putExtra("founded", club.founded)
+                        putExtra("championships", club.championships)
+                        putExtra("description", club.description)
+                        putExtra("imageResId", club.imageResId)
                     }
                     context.startActivity(intent)
                 }
@@ -84,13 +74,13 @@ fun CharacterListScreen() {
 }
 
 @Composable
-fun CharacterItem(character: FootballClub, onClick: () -> Unit) {
+fun FootballClubItem(club: FootballClub, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2359b7))
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF1B5E20))
     ) {
         Row(
             modifier = Modifier
@@ -99,37 +89,32 @@ fun CharacterItem(character: FootballClub, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = character.imageResId),
-                contentDescription = character.name,
+                painter = painterResource(id = club.imageResId),
+                contentDescription = club.name,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(100.dp)
-
+                modifier = Modifier.size(90.dp)
             )
 
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 16.dp),
-                horizontalAlignment = Alignment.Start
+                    .padding(start = 16.dp)
             ) {
                 Text(
-                    text = character.name,
+                    text = club.name,
                     color = Color.White,
-                    fontSize = 24.sp,
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    fontSize = 22.sp
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = "By: ${club.city}",
+                    color = Color.White,
+                    fontSize = 16.sp
                 )
                 Text(
-                    text = "Age: ${character.age}",
+                    text = "Stadion: ${club.stadium}",
                     color = Color.White,
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-                Text(
-                    text = "Race: ${character.race}",
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    fontSize = 16.sp
                 )
             }
         }
@@ -139,5 +124,5 @@ fun CharacterItem(character: FootballClub, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun ListPreview() {
-    CharacterListScreen()
+    FootballListScreen()
 }
