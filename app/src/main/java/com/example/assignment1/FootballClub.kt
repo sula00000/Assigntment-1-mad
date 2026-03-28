@@ -7,5 +7,5 @@ data class FootballClub(
     val founded: Int,
     val championships: Int,
     val description: String,
-    val imageResId: Int = 0
+    val imageResId: Int
 )
